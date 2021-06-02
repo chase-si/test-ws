@@ -1,23 +1,22 @@
-import logo from './logo.svg';
+import React, { useState, useCallback } from 'react'
 import './App.css';
 
-function App() {
+
+const App = () => {
+  let test = useCallback(() => 1, {})
+  const [state, setState] = useState(0)
+
+  const handleClickBegin = () => {
+    console.log('test', test)
+    console.log('state', state)
+    test = test + 1
+  }
+
+  console.log('render')
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit 
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={handleClickBegin}>begin</button>
     </div>
   );
 }
