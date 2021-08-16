@@ -1,24 +1,66 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
+
+import ChartA from './pages/ChartA'
+import ChartB from './pages/ChartB'
+import ChartC from './pages/ChartC'
+import { handleXData } from './utils'
+
 import './App.css';
 
+const WS = new WebSocket('ws://localhost:8080', 'echo-protocol')
+
+const Router = [{
+    path: '/a',
+    text: '原始11W个点',
+    component: (props) => (<ChartA {...props} />)
+}, {
+    path: '/b',
+    text: '10000个点',
+    component: (props) => (<ChartB {...props} />)
+}, {
+    path: '/c',
+    text: '1000个点',
+    component: (props) => (<ChartC {...props} />)
+}]
 
 const App = () => {
-  let test = useCallback(() => 1, {})
-  const [state, setState] = useState(0)
+    const [path, setPath] = useState(null)
+    const [data, setData] = useState(null)
 
-  const handleClickBegin = () => {
-    console.log('test', test)
-    console.log('state', state)
-    test = test + 1
-  }
+    useEffect(() => {
+        WS.addEventListener('message', handleWSData)
+        return () => {
+            WS.removeEventListener('message', handleWSData)
+        }
+    }, [])
 
-  console.log('render')
+    const handleWSData = (msg) => {
+        const data = msg.data.split(" ").filter(item => !!item)
+        setData(data)
+    }
 
-  return (
-    <div className="App">
-      <button onClick={handleClickBegin}>begin</button>
-    </div>
-  );
+    return (
+        <div className="App">
+            <ul>
+                {Router.map(item => (
+                    <li key={item.path} onClick={() => setPath(item.path)}>
+                        {item.text}
+                    </li>
+                ))}
+            </ul>
+            <button onClick={() => WS.send('begin')}>
+                begin
+            </button>
+            <button onClick={() => WS.send('stop')}>
+                stop
+            </button>
+            <div>
+                {Router.find(item => item.path === path)?.component({
+                    data
+                })}
+            </div>        
+        </div>
+    );
 }
 
 export default App;
