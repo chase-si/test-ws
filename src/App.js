@@ -26,7 +26,7 @@ const Router = [{
 const App = () => {
     const [path, setPath] = useState(null)
     const [data, setData] = useState(null)
-
+    
     useEffect(() => {
         WS.addEventListener('message', handleWSData)
         return () => {
@@ -35,7 +35,7 @@ const App = () => {
     }, [])
 
     const handleWSData = (msg) => {
-        const data = msg.data.split(" ").filter(item => !!item)
+        const data = msg.data.split(",")
         setData(data)
     }
 
@@ -48,7 +48,9 @@ const App = () => {
                     </li>
                 ))}
             </ul>
-            <button onClick={() => WS.send('begin')}>
+            <button onClick={() => {
+                WS.send('begin')
+            }}>
                 begin
             </button>
             <button onClick={() => WS.send('stop')}>

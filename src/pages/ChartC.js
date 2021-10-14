@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import ReactECharts from 'echarts-for-react'
 
 import { handleXData } from '../utils'
@@ -31,6 +31,7 @@ const OPTION = {
 const ChartC = props => {
     const { data } = props
     const chartDom = useRef(null)
+    const [count, setCount] = useState(0)
 
     useEffect(() => {
         if (data) {
@@ -43,12 +44,13 @@ const ChartC = props => {
         const ec = chartDom.current.getEchartsInstance()
         const [X, Y] = handleXData(data, 1000)
         console.log(X)
-        ec.setOption({
-            xAxis: {
-                data: X
-            },
-            series: [{ data: Y }]
-        }, [], true)
+        setCount(count + 1)
+        // ec.setOption({
+        //     xAxis: {
+        //         data: X
+        //     },
+        //     series: [{ data: Y }]
+        // }, [], true)
     }
 
     const renderReactChartOnce = useMemo(() => {
@@ -68,6 +70,7 @@ const ChartC = props => {
 
     return (
         <div>
+            <div>{count}</div>
             {renderReactChartOnce}
         </div>
     )
