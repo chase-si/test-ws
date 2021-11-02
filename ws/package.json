@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "sockjs": "^0.3.21",
+    "websocket": "^1.0.34"
+  }
+}
