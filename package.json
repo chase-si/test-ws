@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@arction/lcjs": "^3.2.0",
     "echarts": "^5.1.1",
     "echarts-for-react": "^3.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
     "reconnecting-websocket": "^4.4.0",
-    "web-vitals": "^0.2.4",
     "sockjs": "^0.3.21",
+    "web-vitals": "^0.2.4",
     "websocket": "^1.0.34"
   },
   "scripts": {

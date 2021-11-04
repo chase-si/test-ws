@@ -44,12 +44,14 @@ wsServer.on('request', function(request) {
             console.log('Received Message: ' + message.utf8Data);
 
             if (message.utf8Data === 'begin') {
+                console.log('==========begin');
                 timer = setInterval(() => {
-                    console.log('send')
+                    //console.log('send')
                     connection.sendUTF(sendFile.getData());
                     // connection.sendUTF(Math.random());
                 }, 20)
             } else {
+                console.log('===========stop');
                 clearInterval(timer)
             }
         }

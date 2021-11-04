@@ -42,7 +42,6 @@ const ChartB = props => {
     const handleSetOption = (data) => {
         const ec = chartDom.current.getEchartsInstance()
         const [X, Y] = handleXData(data, 10000)
-        console.log(X)
         ec.setOption({
             xAxis: {
                 data: X

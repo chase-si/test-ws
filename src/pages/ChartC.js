@@ -43,14 +43,13 @@ const ChartC = props => {
     const handleSetOption = (data) => {
         const ec = chartDom.current.getEchartsInstance()
         const [X, Y] = handleXData(data, 1000)
-        console.log(X)
         setCount(count + 1)
-        // ec.setOption({
-        //     xAxis: {
-        //         data: X
-        //     },
-        //     series: [{ data: Y }]
-        // }, [], true)
+        ec.setOption({
+            xAxis: {
+                data: X
+            },
+            series: [{ data: Y }]
+        }, [], true)
     }
 
     const renderReactChartOnce = useMemo(() => {

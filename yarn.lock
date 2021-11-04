@@ -2,6 +2,20 @@
 # yarn lockfile v1
 
 
+"@arction/eventer@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@arction/eventer/-/eventer-1.0.1.tgz#1b11560cf056db03c82d48643f03f28c98379bb4"
+  integrity sha512-/443gMPcZwt+BSH5cy2/sJlYis2zT0IUbllboi/e0Ye4uk58SUloxjMecWjp2sJ7IBCGGpduaE8I73mMQmJGvw==
+
+"@arction/lcjs@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@arction/lcjs/-/lcjs-3.2.0.tgz#fdcde2d86cc21b273d645dc6cafccbf507d51c49"
+  integrity sha512-VxnowdZvuFJreICpVnEpTiDbWnqimKt8D3KlD+V3Lgu1E7Yyz1cGoBnBsIJv4hzci+hkl1g/F6Y7xkHppjq/3Q==
+  dependencies:
+    "@arction/eventer" "^1.0.1"
+    earcut "^2.2.2"
+    immutable "^4.0.0-rc.12"
+
 "@babel/code-frame@7.10.4", "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.5.5":
   version "7.10.4"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.10.4.tgz#168da1a36e90da68ae8d49c0f1b48c7c6249213a"
@@ -4082,6 +4096,11 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
+earcut@^2.2.2:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/earcut/-/earcut-2.2.3.tgz#d44ced2ff5a18859568e327dd9c7d46b16f55cf4"
+  integrity sha512-iRDI1QeCQIhMCZk48DRDMVgQSSBDmbzzNhnxIo+pwx3swkfjMh6vh0nWLq1NdvGHLKH6wIrAM3vQWeTj6qeoug==
+
 ecc-jsbn@~0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz#3a83a904e54353287874c564b7549386849a98c9"
@@ -5557,6 +5576,11 @@ immer@7.0.9:
   version "7.0.9"
   resolved "https://registry.yarnpkg.com/immer/-/immer-7.0.9.tgz#28e7552c21d39dd76feccd2b800b7bc86ee4a62e"
   integrity sha512-Vs/gxoM4DqNAYR7pugIxi0Xc8XAun/uy7AQu4fLLqaTBHxjOP9pJ266Q9MWA/ly4z6rAFZbvViOtihxUZ7O28A==
+
+immutable@^4.0.0-rc.12:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.0.0.tgz#b86f78de6adef3608395efb269a91462797e2c23"
+  integrity sha512-zIE9hX70qew5qTUjSS7wi1iwj/l7+m54KWU247nhM3v806UdGj1yDndXj+IOYxxtW9zyLI+xqFNZjTuDaLUqFw==
 
 import-cwd@^2.0.0:
   version "2.1.0"

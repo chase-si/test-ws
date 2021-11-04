@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import ChartA from './pages/ChartA'
 import ChartB from './pages/ChartB'
 import ChartC from './pages/ChartC'
+import ChartD from './pages/ChartD'
 import { handleXData } from './utils'
 
 import './App.css';
@@ -21,6 +22,11 @@ const Router = [{
     path: '/c',
     text: '1000个点',
     component: (props) => (<ChartC {...props} />)
+},
+{
+    path: '/d',
+    text: 'LightningChart 1000个点',
+    component: (props) => (<ChartD {...props} />)
 }]
 
 const App = () => {
