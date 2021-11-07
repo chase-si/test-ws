@@ -9,15 +9,19 @@ node index.js
 ```
 
 # 前端
-
-## 安装
-```shell
+```
 yarn
-# 去掉lightningchart logo 补丁
-yarn postinstall
+yarn start
 ```
 
-## 运行
-```
-yarn start
+## lightningchart 社区版去掉logo
+```shell
+# 安装特定版本
+yarn add @arction/lcjs@3.2.0
+
+# 修改 node_modules/@arction/lcjs/dist/lcjs.js 文件
+# 将 ,s=i?jU(r):void 0,  全部替换为  ,s=void 0,
+
+# 使用patch-package
+yarn patch-package @arction/lcjs
 ```
