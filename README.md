@@ -8,7 +8,16 @@ yarn install
 node index.js
 ```
 
-启动前端
+# 前端
+
+## 安装
+```shell
+yarn
+# 去掉lightningchart logo 补丁
+yarn postinstall
+```
+
+## 运行
 ```
 yarn start
 ```
