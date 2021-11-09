@@ -1,4 +1,4 @@
-import { lightningChart, AxisTickStrategies, UIElementBuilders } from '@arction/lcjs'
+import { lightningChart, AxisTickStrategies } from '@arction/lcjs'
 import React, { useRef, useEffect } from 'react'
 
 // https://www.arction.com/lightningchart-js-api-documentation/v3.2.0/classes/chartxy.html#addlineseries

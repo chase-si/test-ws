@@ -14,6 +14,20 @@ yarn
 yarn start
 ```
 
+## install patch-package
+https://github.com/ds300/patch-package
+
+### 修改package.json
+```
+"scripts": {
++  "postinstall": "patch-package"
+}
+```
+### yarn add
+```shell
+yarn add patch-package postinstall-postinstall
+```
+
 ## lightningchart 社区版去掉logo
 ```shell
 # 安装特定版本
