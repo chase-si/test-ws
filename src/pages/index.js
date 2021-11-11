@@ -1,7 +1,8 @@
-import React  from "react";
+import React  from "react"
 
-import Inputs from "../components/Inputs";
-import { StyleContainer, Card } from './style';
+import Inputs from "../components/Inputs"
+import Card from "../components/Card"
+import { StyleContainer } from './style'
 
 const DATAS = [{
     title: '酒柜',
