@@ -2,7 +2,7 @@
 const handleXData = (YdataArr, filterLen) => {
     let newYdata = [...YdataArr]
     const originLen = YdataArr.length
-    const START = 80e6
+    const START = 10e6
     const END = 108e6
     let step = 25e3
 

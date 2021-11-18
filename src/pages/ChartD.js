@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import LightningChart from './LightningChart'
+import HeatmapChart from './lightningchart/HeatmapChart'
 import { handleXData } from '../utils'
 
 import './ChartD.css';
@@ -8,6 +9,7 @@ import './ChartD.css';
 const ChartD = props => {
     const { data } = props
     const [chartData, setChartData] = useState([])
+    const [heatmapData, setHeatmapData] = useState([])
     const [count, setCount] = useState(0)
 
     useEffect(() => {
@@ -16,6 +18,7 @@ const ChartD = props => {
             const cData = X.map((value, index) => ({ x: value, y: Y[index] }));
             setCount(count + 1)
             setChartData(cData);
+            setHeatmapData(Y)
         }
     }, [data])
 
@@ -26,6 +29,10 @@ const ChartD = props => {
             <LightningChart
                 id="chart-demo"
                 data={chartData}
+            />
+            <HeatmapChart
+                id="heatmap-demo"
+                data={heatmapData}
             />
         </div>
     )

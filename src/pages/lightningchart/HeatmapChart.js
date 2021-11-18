@@ -1,97 +1,83 @@
-import { lightningChart, LUT, ColorRGBA, PalettedFill, emptyLine, 
-    UIElementBuilders, UIOrigins, emptyFill
+import {
+    lightningChart, LUT, ColorHSV, PalettedFill,
+    AxisScrollStrategies, AxisTickStrategies, LegendBoxBuilders
 } from "@arction/lcjs";
 import React, { useRef, useEffect } from "react";
 
 // LightningChart 热力图表
-
-const domId = "heatmap-line";
+const formatX = (val) => `${(val / 1e6).toFixed(2)} MHz`;
 
 const lut = new LUT({
-    interpolate: false,
     steps: [
-        { value: 0, color: ColorRGBA(255, 255, 255) },
-        { value: 200, color: ColorRGBA(96, 146, 237) },
-        { value: 300, color: ColorRGBA(0, 0, 255) },
-        { value: 400, color: ColorRGBA(255, 215, 0) },
-        { value: 500, color: ColorRGBA(255, 164, 0) },
-        { value: 600, color: ColorRGBA(255, 64, 0) },
+        { value: 0, label: "0", color: ColorHSV(0, 1, 0) },
+        { value: 15, label: "15", color: ColorHSV(270, 0.84, 0.2) },
+        { value: 30, label: "30", color: ColorHSV(289, 0.86, 0.35) },
+        { value: 45, label: "45", color: ColorHSV(324, 0.97, 0.56) },
+        { value: 60, label: "60", color: ColorHSV(1, 1, 1) },
+        { value: 75, label: "75", color: ColorHSV(44, 0.64, 1) },
     ],
-})
-
-const fakeDataPromise = new Promise(async resolve => {
-    const traceDataArray = await Promise.all(
-        new Array(10).fill(0).map(() => 
-            new Array(100).fill(0).map(() => (Math.random() * 1000))
-        )
-    )
-    resolve({traceDataArray});
+    units: "dB",
+    interpolate: true,
 });
 
-const Chart = () => {
-  const chartRef = useRef(undefined);
+const paletteFill = new PalettedFill({ lut, lookUpProperty: "value" });
 
-  useEffect(() => {
-    const chart = lightningChart()
-      .ChartXY({ container: domId })
-      .setTitle("热力图表")
-      .setPadding({  right: 16, bottom: 60 })
+const Chart = props => {
+    const { id, data } = props
+    const chartRef = useRef(undefined);
 
-      // 模拟假数据
-      fakeDataPromise.then(data => {
-        const { traceDataArray } = data
-        const heatmapOptions = {
-            columns: traceDataArray[0].length,
-            rows: traceDataArray.length,
-            start: {
-                x: 0,
-                y: 0,
-            },
-            step: {
-                x: 10,
-                y: 10,
-            },
-            dataOrder: 'rows'
+    useEffect(() => {
+        const chart = lightningChart().ChartXY({ container: id })
+        chart.setTitle("瀑布图表").setPadding({ right: 16, bottom: 60 })
+
+        // 配置横坐标
+        const xAxis = chart.getDefaultAxisX()
+        xAxis.setTickStrategy(AxisTickStrategies.Numeric, strategy =>
+            strategy
+                .setMajorFormattingFunction((tickPosition) => formatX(tickPosition))
+                .setMinorFormattingFunction((tickPosition) => formatX(tickPosition))
+        ).setInterval(10e6, 35e6, false, true)
+
+        // 配置纵坐标
+        const yAxis = chart.getDefaultAxisY()
+        yAxis.setScrollStrategy(AxisScrollStrategies.progressive)
+            .setInterval(0, 1000000)
+            .setTickStrategy(AxisTickStrategies.Time);
+
+        const seriesOptions = {
+            scrollDimension: "rows",
+            resolution: 1000,
+            start: { x: 10e6, y: 0 },
+            step: { x: 25e3, y: 1000 },
         }
-        const heatmapSeries = chart
-        .addHeatmapGridSeries(heatmapOptions)
-        .setPixelInterpolationMode('disabled')
-        .invalidateIntensityValues(traceDataArray)
-        .setFillStyle(new PalettedFill({
-            lookUpProperty: 'value',
-            lut
-        }))
-        .setWireframeStyle(emptyLine)
-        .setCursorResultTableFormatter((builder, series, dataPoint) => builder
-            .addRow('Intensity:', '', dataPoint.intensity.toFixed(1))
-        )
 
-        const lutRange = chart.addUIElement(UIElementBuilders.LUTRange)
-        .setLUT(lut)
-        .setLUTLength(500)
-        .setPosition({ x: 50, y: 0 })
-        .setMargin(20)
-        .setOrigin(UIOrigins.CenterBottom)
-        .setAutoDispose({
-            type: 'max-width',
-            maxWidth: 0.8,
-        })
-        .setBackground(background => background
-            .setFillStyle(emptyFill)
-            .setStrokeStyle(emptyLine)
-        )
-      })
+        const series = chart
+            .addHeatmapScrollingGridSeries(seriesOptions)
+            .setFillStyle(paletteFill)
 
-    chartRef.current = { chart };
+        // 配置图例
+        const legend = chart
+            .addLegendBox(LegendBoxBuilders.HorizontalLegendBox)
+            .add(chart)
 
-    return () => {
-      console.log("destroy chart");
-      chart.dispose();
-      chartRef.current = undefined;
-    };
-  });
+        chartRef.current = { chart, series };
 
-  return <div id={domId} style={{ height: 400 }}></div>;
+        return () => {
+            console.log("destroy chart");
+            chart.dispose();
+            chartRef.current = undefined;
+        };
+    }, [id]);
+
+
+    useEffect(() => {
+        if (data && data.length > 0) {
+            const { series } = chartRef.current
+            series.addIntensityValues([data]);
+        }
+    }, [data])
+
+    return <div id={id} style={{ height: 400 }}></div>;
 };
 
 export default Chart;
