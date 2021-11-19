@@ -6,8 +6,10 @@ export const CardContainer = styled.div`
     width: 200px;
     height: 300px;
     transition: all 0.5s ease-in;
+    perspective: 1000px;
 
     .card {
+        perspective: 1000px;
         width: 100%;
         height: 100%;
         border: 1px solid ${COLORS[7]};
