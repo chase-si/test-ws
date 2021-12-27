@@ -16,6 +16,7 @@ const ChartD = props => {
         if (data) {
             const [X, Y] = handleXData(data, 1000);
             const cData = X.map((value, index) => ({ x: value, y: Y[index] }));
+            console.log("data", cData[1])
             setCount(count + 1)
             setChartData(cData);
             setHeatmapData(Y)

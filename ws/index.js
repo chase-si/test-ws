@@ -49,7 +49,7 @@ wsServer.on('request', function(request) {
                     //console.log('send')
                     connection.sendUTF(sendFile.getData());
                     // connection.sendUTF(Math.random());
-                }, 20)
+                }, 1000)
             } else {
                 console.log('===========stop');
                 clearInterval(timer)
