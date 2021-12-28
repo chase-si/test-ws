@@ -14,6 +14,20 @@ import React, { useRef, useEffect, useState } from 'react'
 // https://www.arction.com/lightningchart-js-api-documentation/v3.2.0/classes/chartxy.html#addlineseries
 
 const formatX = (val) => `${(val / 1e6).toFixed(2)} MHz`;
+
+// 节流函数
+const throttle = (cb, wait=300) => {
+  let last = 0;
+    return function(){
+        const now = new Date().getTime();;
+        if (now - last > wait) {
+            cb.apply(this, arguments);
+            last = new Date().getTime();;
+        }
+    }
+}
+
+// 自定义marker
 const SeriesMarkerBuilder = MarkerBuilders.XY
     .setPointMarker(UIBackgrounds.Circle)
     .setResultTableBackground(UIBackgrounds.Pointer)
@@ -68,12 +82,14 @@ const LightningChart = (props) => {
       .setMajorFormattingFunction((tickPosition) => formatX(tickPosition))
       .setMinorFormattingFunction((tickPosition) => formatX(tickPosition))
     );
-    axisX.onAxisInteractionAreaMouseMove((_, event) => {
-      const mouseLocationEngine = chart.engine.clientLocation2Engine(event.clientX, event.clientY)
-      const mouseLocationAxisX = translatePoint(mouseLocationEngine, chart.engine.scale, { x: chart.getDefaultAxisX(), y: chart.getDefaultAxisY() }).x
-      xValue.current = mouseLocationAxisX
-      marker.setPosition({x: mouseLocationAxisX})
-    })
+    axisX.onAxisInteractionAreaMouseMove(throttle(
+      (_, event) => {
+        const mouseLocationEngine = chart.engine.clientLocation2Engine(event.clientX, event.clientY)
+        const mouseLocationAxisX = translatePoint(mouseLocationEngine, chart.engine.scale, { x: chart.getDefaultAxisX(), y: chart.getDefaultAxisY() }).x
+        xValue.current = mouseLocationAxisX
+        marker.setPosition({x: mouseLocationAxisX})
+      }
+    ))
     
     
     // Store references to chart components.
@@ -101,13 +117,6 @@ const LightningChart = (props) => {
           marker.setPosition({x: xValue.current})
         }, 10)
       }
-      
-      // const step = data.length / 10 ;
-      // for(let i = 0; i < data.length ; i=i+step){
-      //   axisX.addCustomTick(UIElementBuilders.AxisTick)
-      //       .setValue(data[i].x)
-      //       .setTextFormatter(() => formatX(data[i].x)); 
-      // }
     }
   }, [data, chartRef])
 
