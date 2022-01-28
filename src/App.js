@@ -1,12 +1,24 @@
+import React from 'react'
+
 import BoardWithInput from './pages/board'
 import './App.css';
-import Page from './pages'
+import Gift from './pages/gift'
+
+const router = () => {
+  const { pathname } = window.location
+  if (pathname === '/gift') {
+    return <Gift />
+  }
+  if (pathname === '/keyboard') {
+    return <BoardWithInput />
+  }
+  return <div>homepage</div>
+}
 
 function App() {
   return (
     <div className="App">
-      <Page />
-      {/* <BoardWithInput /> */}
+      {router()}
     </div>
   );
 }
